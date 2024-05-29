@@ -1,82 +1,41 @@
+// Et kart over forholdenen mellom basen og de andre verdiene
+const conversionMap = {
+    "meter": 1, // Base enhet
+    "centimeter": 0.01,
+    "feet": 3.2808399,
+    "inch": 39.3700787,
+}
+
 // Hent ut alle elementer med klasse navn "input-element"
 const inputElements = document.getElementsByClassName("input-element")
 
 function updateFields(event) {
+    // Hent ut enheten fra input feltet
+    const inUnit = event.target.id
     // Hent ut verdien i input feltet
     const value = event.target.value
-    // Hent ut enheten fra input feltet
-    const unit = event.target.id
-
-    // Regn ut de nye verdien
-    const centimeter = convertFromTo(unit, "centimeter", value)
-    const meter = convertFromTo(unit, "meter", value)
-    const inch = convertFromTo(unit, "inch", value)
-    const feet = convertFromTo(unit, "feet", value)
 
     // For hvert felt oppdater til den nye verdien
     for (const input of inputElements) {
-        switch (input.id) {
-            case "centimeter":
-                input.value = centimeter
-                break;
-            case "meter":
-                input.value = meter
-                break;
-            case "inch":
-                input.value = inch
-                break;
-            case "feet":
-                input.value = feet
-                break;
-        }
+        const outUnit = input.id
+        // Regn ut de nye verdien, avrund
+        input.value = convert(inUnit, outUnit, value).toFixed(2)
     }
 }
 
-function convertFromTo(from, to, value) {
-    let result = 0
-
-    // From value
-    switch (from) {
-        case "meter":
-            // To value
-            switch (to) {
-                case "meter":
-                    result = value
-                    break;
-                case "centimeter":
-                    result = value * 100
-                    break;
-                case "inch":
-                    result = value * 39.37007874015748031496062992126
-                    break;
-                case "feet":
-                    result = value * 3.2808398950131233595800524934383
-                    break;
-            }
-            break;
-        case "centimeter":
-            // To value
-            switch (to) {
-                case "meter":
-                    result = value
-                    break;
-                case "centimeter":
-                    result = value * 100
-                    break;
-                case "inch":
-                    result = value * 39.37007874015748031496062992126
-                    break;
-                case "feet":
-                    result = value * 3.2808398950131233595800524934383
-                    break;
-            }
-            break;
-    }
-
+/**
+ * Konverterer en verdi fra et format til et annet
+ * @param {keyof conversionMap} from 
+ * @param {keyof conversionMap} to 
+ * @param {number} value 
+ */
+function convert(from, to, value) {
+    const baseUnit = value / conversionMap[from]
+    const result = baseUnit * conversionMap[to]
     return result
 }
 
-// For løkker ->  For hvert element i samlingen inputElements gjør logikken i kodeblokken
+// For løkker ->  For hvert element i samlingen inputElements legg til en hendelses lytter
 for (const input of inputElements) {
     input.addEventListener("input", updateFields)
 }
