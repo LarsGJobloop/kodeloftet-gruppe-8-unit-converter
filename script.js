@@ -1,7 +1,7 @@
 // Et kart over forholdenen mellom basen og de andre verdiene
 const conversionMap = {
     "meter": 1, // Base enhet
-    "centimeter": 0.01,
+    "centimeter": 100,
     "feet": 3.2808399,
     "inch": 39.3700787,
 }
