@@ -1,7 +1,7 @@
 // Hent ut alle elementer med klasse navn "input-element"
 const inputElements = document.getElementsByClassName("input-element")
 
-function logToConsole(event) {
+function updateFields(event) {
     // Hent ut verdien i input feltet
     const value = event.target.value
     // Hent ut enheten fra input feltet
@@ -78,5 +78,5 @@ function convertFromTo(from, to, value) {
 
 // For løkker ->  For hvert element i samlingen inputElements gjør logikken i kodeblokken
 for (const input of inputElements) {
-    input.addEventListener("input", logToConsole)
+    input.addEventListener("input", updateFields)
 }
